@@ -1,0 +1,102 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.a4-container {
+  width: 794px;
+  /* 210mm at 96dpi */
+  min-height: 1123px;
+  /* 297mm at 96dpi */
+  padding: 32px;
+  background-color: white;
+  margin: auto;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  /* Optional: No shadow in PDF */
+}
+
+.page-break {
+  break-before: always;
+  page-break-before: always;
+}
+
+
+@media print {
+  body {
+    background: white;
+    margin: 0;
+    padding: 0;
+  }
+
+  .print-plain {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .printable {
+    width: 210mm;
+    min-height: auto;
+    margin: auto;
+    padding: 20mm;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .page-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .printable,
+  .page-section,
+  .page-break {
+    break-before: auto !important;
+    page-break-before: auto !important;
+    break-after: auto !important;
+    page-break-after: auto !important;
+  }
+
+
+  .no-print {
+    display: none !important;
+  }
+
+  html,
+  body {
+    overflow: visible !important;
+    box-sizing: border-box;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
