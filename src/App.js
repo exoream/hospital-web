@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { UserIcon, ArrowRightIcon } from 'lucide-react';
-import { getUserRole } from './utils/auth';
-import Cookies from 'js-cookie';
-import Swal from 'sweetalert2';
-import './App.css';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserIcon, ArrowRightIcon } from "lucide-react";
+import { getUserRole } from "./utils/auth";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+import "./App.css";
 
 function App() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async () => {
@@ -19,48 +19,54 @@ function App() {
     // }
 
     if (!username.trim() || !password.trim()) {
-      Swal.fire('Gagal', 'Username dan password wajib diisi.', 'error');
+      Swal.fire("Gagal", "Username dan password wajib diisi.", "error");
       return;
     }
-
 
     setIsLoading(true);
     console.log(username, password);
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await fetch(
+        "https://hospital-be-chi.vercel.app/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        }
+      );
 
       const data = await response.json();
 
       if (!response.ok) {
-        Swal.fire('Login Gagal', data.message || 'Login gagal', 'error');
+        Swal.fire("Login Gagal", data.message || "Login gagal", "error");
         setIsLoading(false);
         return;
       }
 
       try {
         const expiryTime = new Date().getTime() + 12 * 60 * 60 * 1000;
-        Cookies.set('expiryTime', expiryTime, { expires: 1 });
-        Cookies.set('token', data.data.token, { expires: 1 });
+        Cookies.set("expiryTime", expiryTime, { expires: 1 });
+        Cookies.set("token", data.data.token, { expires: 1 });
         const role = getUserRole();
         switch (role) {
           case "admin":
-            return navigate('/dashboard');
+            return navigate("/dashboard");
           case "pasien":
-            return navigate('/user-dashboard');
+            return navigate("/user-dashboard");
           default:
-            return navigate('/unauthorized');
+            return navigate("/unauthorized");
         }
       } catch (error) {
-        console.error('Token tidak valid:', error);
-        Swal.fire('Akses Ditolak', 'Hanya admin yang bisa login ke halaman ini', 'error');
+        console.error("Token tidak valid:", error);
+        Swal.fire(
+          "Akses Ditolak",
+          "Hanya admin yang bisa login ke halaman ini",
+          "error"
+        );
       }
     } catch (error) {
-      console.error('Terjadi kesalahan saat login:', error);
-      alert('Terjadi kesalahan jaringan');
+      console.error("Terjadi kesalahan saat login:", error);
+      alert("Terjadi kesalahan jaringan");
     } finally {
       setIsLoading(false);
     }
@@ -72,7 +78,11 @@ function App() {
         {/* Logo dan judul */}
         <div className="text-center">
           <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mb-4 border-4 border-green-200">
-            <img src='/assets/LOGO_PUSKESMAS_CAMBA.png' alt="Logo Kanan" class="h-20 w-20 object-contain" />
+            <img
+              src="/assets/LOGO_PUSKESMAS_CAMBA.png"
+              alt="Logo Kanan"
+              class="h-20 w-20 object-contain"
+            />
           </div>
           <h1 className="text-2xl font-bold text-green-800">Puskesmas Camba</h1>
           <p className="text-gray-600 font-medium">Kabupaten Maros</p>
