@@ -98,7 +98,7 @@ export default function PasienHistoryRecord({ id }) {
     try {
       const token = getToken();
       const response = await fetch(
-        `http://127.0.0.1:3000/api/admin/notify-patient/${selectedRiwayat.riwayat_id}`,
+        `https://hospital-be-chi.vercel.app/api/admin/notify-patient/${selectedRiwayat.riwayat_id}`,
         {
           method: "POST",
           headers: {

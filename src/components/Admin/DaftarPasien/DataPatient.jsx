@@ -91,7 +91,7 @@ export default function DataPatient({ onSelectDetail, activeMenu }) {
     try {
       const token = getToken();
       const res = await fetch(
-        `http://127.0.0.1:3000/api/admin/pasien/${currentPasien.id}`,
+        `https://hospital-be-chi.vercel.app/api/admin/pasien/${currentPasien.id}`,
         {
           method: "PUT",
           headers: {

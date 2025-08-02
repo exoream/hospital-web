@@ -24,14 +24,17 @@ const CreateRiwayatPasien = () => {
         try {
             const token = await getToken();
 
-            const response = await fetch("http://127.0.0.1:3000/api/pasien/riwayat", {
+            const response = await fetch(
+              "https://hospital-be-chi.vercel.app/api/pasien/riwayat",
+              {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(formData),
-            });
+              }
+            );
 
             const data = await response.json();
 
