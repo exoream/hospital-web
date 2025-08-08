@@ -20,7 +20,7 @@ const ReportPage = () => {
         try {
           const token = await getToken();
           const res = await fetch(
-            "https://hospital-be-chi.vercel.app/api/admin/pasien",
+            "https://hospital-be-chi.vercel.app/api/admin/all-pasien",
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -283,11 +283,10 @@ const ReportPage = () => {
             <button
               onClick={fetchReport}
               disabled={!selectedYear}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                selectedYear
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${selectedYear
                   ? "bg-green-500 hover:bg-green-600 text-white"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+                }`}
             >
               Tampilkan Laporan
             </button>
