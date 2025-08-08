@@ -23,7 +23,7 @@ const ReportPage = () => {
       const fetchPasien = async () => {
         try {
           const token = await getToken();
-          const res = await fetch(`http://localhost:3000/api/admin/pasien?search=${search}&page=${page}&limit=${limit}`, {
+          const res = await fetch(`https://hospital-be-chi.vercel.app/api/admin/pasien?search=${search}&page=${page}&limit=${limit}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           const data = await res.json();
@@ -52,7 +52,7 @@ const ReportPage = () => {
       const token = await getToken();
       if (mode === 'individual') {
         const res = await fetch(
-          `http://localhost:3000/api/admin/per-pasien/${selectedPasien}`,
+          `https://hospital-be-chi.vercel.app/api/admin/per-pasien/${selectedPasien}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ const ReportPage = () => {
         }
       } else if (mode === 'annual') {
         const res = await fetch(
-          `http://localhost:3000/api/admin/tahunan/${selectedYear}`,
+          `https://hospital-be-chi.vercel.app/api/admin/tahunan/${selectedYear}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -92,7 +92,7 @@ const ReportPage = () => {
         }
       } else if (mode === 'monthly') {
         const res = await fetch(
-          `http://localhost:3000/api/admin/bulanan/${selectedYear}/${selectedMonth}`,
+          `https://hospital-be-chi.vercel.app/api/admin/bulanan/${selectedYear}/${selectedMonth}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -255,7 +255,6 @@ const ReportPage = () => {
           </div>
         </div>
       )}
-      adasd
 
       {mode === 'monthly' && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6 no-print">
