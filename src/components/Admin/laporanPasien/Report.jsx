@@ -7,10 +7,6 @@ import AnnualReportTemplate from "../../templates/AnnualReportTemplate";
 import MonthlyReportTemplate from "../../templates/MonthlyReportTemplate";
 
 const ReportPage = () => {
-  const [search, setSearch] = useState('');
-  const [page, setPage] = useState(1);
-  const [limit] = useState(10);
-  const [pagination, setPagination] = useState({});
   const [mode, setMode] = useState(""); // 'individual' | 'annual' |  'monthly'
   const [pasienList, setPasienList] = useState([]);
   const [selectedPasien, setSelectedPasien] = useState("");
@@ -24,7 +20,7 @@ const ReportPage = () => {
         try {
           const token = await getToken();
           const res = await fetch(
-            `https://hospital-be-chi.vercel.app/api/admin/pasien?search=${search}&page=${page}&limit=${limit}`,
+            "https://hospital-be-chi.vercel.app/api/admin/pasien",
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -33,14 +29,13 @@ const ReportPage = () => {
 
           const list = Array.isArray(data.data?.data)
             ? data.data.data.map((p) => ({
-              id: p.id,
-              nama_lengkap: p.nama_lengkap || "Tidak diketahui",
-            }))
+                id: p.id,
+                nama_lengkap: p.nama_lengkap || "Tidak diketahui",
+              }))
             : [];
 
           console.log("Pasien list:", list);
           setPasienList(list);
-          setPagination(data.data?.pagination || {});
         } catch (err) {
           console.error("Gagal mengambil data pasien:", err);
         }
@@ -48,7 +43,7 @@ const ReportPage = () => {
 
       fetchPasien();
     }
-  }, [mode, search, page]);
+  }, [mode]);
 
   const fetchReport = async () => {
     try {
@@ -136,10 +131,11 @@ const ReportPage = () => {
             setMode("individual");
             setReport(null);
           }}
-          className={`p-4 rounded-xl border text-left transition-all ${mode === "individual"
-            ? "bg-blue-50 border-blue-200 text-blue-700"
-            : "bg-white border-gray-100 text-gray-700 hover:bg-gray-50"
-            }`}
+          className={`p-4 rounded-xl border text-left transition-all ${
+            mode === "individual"
+              ? "bg-blue-50 border-blue-200 text-blue-700"
+              : "bg-white border-gray-100 text-gray-700 hover:bg-gray-50"
+          }`}
         >
           <div className="font-medium mb-1">Laporan Individual</div>
           <div className="text-sm text-gray-500">
@@ -152,10 +148,11 @@ const ReportPage = () => {
             setMode("monthly");
             setReport(null);
           }}
-          className={`p-4 rounded-xl border text-left transition-all ${mode === "monthly"
-            ? "bg-yellow-50 border-yellow-200 text-yellow-700"
-            : "bg-white border-gray-100 text-gray-700 hover:bg-gray-50"
-            }`}
+          className={`p-4 rounded-xl border text-left transition-all ${
+            mode === "monthly"
+              ? "bg-yellow-50 border-yellow-200 text-yellow-700"
+              : "bg-white border-gray-100 text-gray-700 hover:bg-gray-50"
+          }`}
         >
           <div className="font-medium mb-1">Laporan Bulanan</div>
           <div className="text-sm text-gray-500">
@@ -168,10 +165,11 @@ const ReportPage = () => {
             setMode("annual");
             setReport(null);
           }}
-          className={`p-4 rounded-xl border text-left transition-all ${mode === "annual"
-            ? "bg-green-50 border-green-200 text-green-700"
-            : "bg-white border-gray-100 text-gray-700 hover:bg-gray-50"
-            }`}
+          className={`p-4 rounded-xl border text-left transition-all ${
+            mode === "annual"
+              ? "bg-green-50 border-green-200 text-green-700"
+              : "bg-white border-gray-100 text-gray-700 hover:bg-gray-50"
+          }`}
         >
           <div className="font-medium mb-1">Laporan Tahunan</div>
           <div className="text-sm text-gray-500">
@@ -181,99 +179,43 @@ const ReportPage = () => {
       </div>
 
       {/* Individual Report Form */}
-      {mode === 'individual' && (
+      {mode === "individual" && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6 no-print">
           <h3 className="font-medium text-gray-700 mb-4">Laporan Individual</h3>
 
           <div className="space-y-4">
-            {/* Search */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Cari Pasien
+                Pilih Pasien
               </label>
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setPage(1);
-                }}
+              <select
                 className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Ketik nama pasien..."
-              />
-            </div>
-
-            {/* List Pasien */}
-            <div className="border border-gray-200 rounded-lg divide-y divide-gray-100 max-h-60 overflow-y-auto">
-              {pasienList.length > 0 ? (
-                pasienList.map((p) => (
-                  <button
-                    key={p.id}
-                    onClick={() => setSelectedPasien(p.id)}
-                    className={`w-full text-left px-4 py-2 text-sm hover:bg-blue-50 transition ${selectedPasien === p.id
-                      ? "bg-blue-100 text-blue-700 font-medium"
-                      : "text-gray-700"
-                      }`}
-                  >
+                value={selectedPasien}
+                onChange={(e) => setSelectedPasien(e.target.value)}
+              >
+                <option value="">-- Pilih Pasien --</option>
+                {pasienList.map((p) => (
+                  <option key={p.id} value={p.id}>
                     {p.nama_lengkap}
-                  </button>
-                ))
-              ) : (
-                <div className="px-4 py-3 text-gray-500 text-sm">
-                  Tidak ada data pasien
-                </div>
-              )}
+                  </option>
+                ))}
+              </select>
             </div>
 
-            {/* Tampilkan Laporan Button */}
-            <div>
-              <button
-                onClick={fetchReport}
-                disabled={!selectedPasien}
-                className={`px-4 py-2 rounded-lg font-medium transition-colors w-full md:w-auto ${selectedPasien
+            <button
+              onClick={fetchReport}
+              disabled={!selectedPasien}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                selectedPasien
                   ? "bg-blue-500 hover:bg-blue-600 text-white"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}
-              >
-                Tampilkan Laporan
-              </button>
-            </div>
-
-            {/* Pagination */}
-            {pagination.totalPages > 1 && (
-              <div className="flex items-center justify-center space-x-3 pt-2 border-t border-gray-100">
-                <button
-                  disabled={!pagination.prevPage}
-                  onClick={() => setPage(pagination.prevPage)}
-                  className={`px-3 py-1 rounded-lg text-sm font-medium ${pagination.prevPage
-                    ? "bg-blue-500 text-white hover:bg-blue-600"
-                    : "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    }`}
-                >
-                  Prev
-                </button>
-
-                <span className="text-sm text-gray-600">
-                  Halaman <strong>{pagination.page || 1}</strong> dari{" "}
-                  <strong>{pagination.totalPages || 1}</strong>
-                </span>
-
-                <button
-                  disabled={!pagination.nextPage}
-                  onClick={() => setPage(pagination.nextPage)}
-                  className={`px-3 py-1 rounded-lg text-sm font-medium ${pagination.nextPage
-                    ? "bg-blue-500 text-white hover:bg-blue-600"
-                    : "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    }`}
-                >
-                  Next
-                </button>
-              </div>
-            )}
+              }`}
+            >
+              Tampilkan Laporan
+            </button>
           </div>
         </div>
       )}
-
 
       {mode === "monthly" && (
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6 no-print">
@@ -341,10 +283,11 @@ const ReportPage = () => {
             <button
               onClick={fetchReport}
               disabled={!selectedYear}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors ${selectedYear
-                ? "bg-green-500 hover:bg-green-600 text-white"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                selectedYear
+                  ? "bg-green-500 hover:bg-green-600 text-white"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
             >
               Tampilkan Laporan
             </button>
