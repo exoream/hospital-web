@@ -98,7 +98,7 @@ const HealthReportTemplate = ({ pasien, riwayat, kunjungan }) => {
             <div class="page-break">
                 <div className="flex justify-end mt-5">
                     <div className="text-sm">
-                        <p>Kota Sehat, {new Date().toLocaleDateString('id-ID')}</p>
+                        <p>Kota Camba, {new Date().toLocaleDateString('id-ID')}</p>
                         <p className="font-semibold">Dokter Pemeriksa</p>
                         <div className="h-16"></div>
                         <p className="font-semibold underline">(......................................)</p>
