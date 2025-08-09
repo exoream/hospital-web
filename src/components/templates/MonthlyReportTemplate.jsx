@@ -142,7 +142,7 @@ const MonthlyReportTemplate = ({ report }) => {
                     </div>
 
                     <div className="text-sm">
-                        <p>Kota Sehat, {new Date().toLocaleDateString('id-ID')}</p>
+                        <p>Kota Camba, {new Date().toLocaleDateString('id-ID')}</p>
                         <p className="font-semibold">Penanggung Jawab Program</p>
                         <div className="h-16"></div>
                         <p className="font-semibold underline">(......................................)</p>
